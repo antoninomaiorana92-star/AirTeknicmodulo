@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modulo Collaudo AIRTEKNIC</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #007BFF; }
+        .section { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
+        label { display: block; margin-top: 10px; }
+        input[type=text], input[type=number], input[type=date], textarea { width: 100%; padding: 5px; margin-top: 3px; }
+        textarea { resize: vertical; }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 5px; }
+        .checkbox-group label { display: inline-block; }
+        button { padding: 10px 20px; font-size: 16px; background-color: #007BFF; color: white; border: none; cursor: pointer; margin-top: 20px; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>AIRTEKNIC — Il comfort che meriti</h1>
+
+    <form id="collaudoForm">
+
+        <!-- 1) DATI GENERALI -->
+        <div class="section">
+            <h2>1) DATI GENERALI</h2>
+            <label>Data collaudo: <input type="date" name="dataCollaudo"></label>
+            <label>Indirizzo: <input type="text" name="indirizzo"></label>
+            <label>Nome Cliente : <input type="text" name="cliente"></label>
+            <label>Tel : <input type="text" name="Tel"></label>
+            <label>Indirizzo E-mail: <input type="text" name="E-mail"></label>
+        </div>
+
+        <!-- 2) INFORMAZIONI UNITÀ / IMPIANTO -->
+        <div class="section">
+            <h2>2) INFORMAZIONI UNITÀ / IMPIANTO</h2>
+            <label>Marca / Modello unità interne (1): <input type="text" name="marcaInterna"></label>
+            <label>N. di serie Interna: <input type="text" name="serieInterna"> Potenza (kW): <input type="number" name="potenza"></label>
+            <label>Marca / Modello unità esterna: <input type="text" name="marcaEsterna"></label>
+            <label>N. di serie esterna: <input type="text" name="serieEsterna"> Tipologia (split/VRF/etc): <input type="text" name="tipologia"></label>
+            <label>Tipo di refrigerante: <input type="text" name="refrigerante"> Carica nominale (kg): <input type="number" step="0.01" name="caricaNominale"></label>
+            <label>Anno installazione: <input type="number" name="annoInstallazione"> Note: <textarea name="noteUnità"></textarea></label>
+        </div>
+
+        <!-- 3) PROVA DI TENUTA -->
+        <div class="section">
+            <h2>3) PROVA DI TENUTA (LEAK TEST)</h2>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="metodoTest" value="Azoto"> Azoto</label>
+                <label><input type="checkbox" name="metodoTest" value="Rilevatore elettronico"> Rilevatore elettronico</label>
+                <label><input type="checkbox" name="metodoTest" value="Altro"> Altro</label>
+            </div>
+            <label>Valore pressione test: <input type="number" step="0.01" name="valorePressione"> bar / <input type="number" step="0.01" name="valoreMbar"> mbar</label>
+            <label>Durata test: <input type="number" name="durataTest"> min</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="perdita" value="No"> No</label>
+                <label><input type="checkbox" name="perdita" value="Sì"> Sì</label>
+            </div>
+            <label>Descrizione perdita / interventi riparazione: <textarea name="interventiRiparazione"></textarea></label>
+        </div>
+
+        <!-- 4) EVACUAZIONE E RAGGIO DI SOTTOVUOTO -->
+        <div class="section">
+            <h2>4) EVACUAZIONE E RAGGIO DI SOTTOVUOTO</h2>
+            <label>Tempo di evacuazione: <input type="number" name="tempoEvacuazione"> min</label>
+            <label>Pressione finale raggiunta: <input type="number" name="pressioneFinale"> mbar</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="valutazioneSottovuoto" value="Buono"> Buono</label>
+                <label><input type="checkbox" name="valutazioneSottovuoto" value="Accettabile"> Accettabile</label>
+                <label><input type="checkbox" name="valutazioneSottovuoto" value="Insufficiente"> Insufficiente</label>
+            </div>
+            <label>Note: <textarea name="noteSottovuoto"></textarea></label>
+        </div>
+
+        <!-- 5) CARICA REFRIGERANTE E VERIFICA PRESTAZIONALE -->
+        <div class="section">
+            <h2>5) CARICA REFRIGERANTE E VERIFICA PRESTAZIONALE</h2>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="metodoCarica" value="Peso esatto"> Peso esatto</label>
+                <label><input type="checkbox" name="metodoCarica" value="Pressione/Temperatura"> Pressione/Temperatura</label>
+                <label><input type="checkbox" name="metodoCarica" value="Altro"> Altro</label>
+            </div>
+            <label>Carica immessa (kg): <input type="number" step="0.01" name="caricaImessa"></label>
+            <label>Pressione lato alta (HP): <input type="number" step="0.01" name="pressioneHP"> bar</label>
+            <label>Pressione lato bassa (LP): <input type="number" step="0.01" name="pressioneLP"> bar</label>
+            <label>Temperatura aspirazione compressore: <input type="number" step="0.1" name="tempAspirazione"> °C</label>
+            <label>Temperatura mandata aria interna: <input type="number" step="0.1" name="tempMandata"> °C</label>
+            <label>Differenziale temperatura (°C) aria mandata/ritorno: <input type="number" step="0.1" name="deltaT"> °C</label>
+            <label>Potenza assorbita motore (se misurata): <input type="number" step="1" name="potenzaMotore"> W</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="valutazioneRendimento" value="Conforme"> Conforme</label>
+                <label><input type="checkbox" name="valutazioneRendimento" value="Non conforme"> Non conforme</label>
+            </div>
+            <label>Note: <textarea name="noteRendimento"></textarea></label>
+        </div>
+
+        <!-- 6) PROVE E CONTROLLI ELETTRICI -->
+        <div class="section">
+            <h2>6) PROVE E CONTROLLI ELETTRICI</h2>
+            <label>Tensione alimentazione (V): <input type="number" step="1" name="220V"> — Frequenza (Hz): <input type="number" step="0.1" name="50 Hz"></label>
+            <label>Corrente compressore (A): <input type="number" step="0.1" name="1,5A"> — Assorbimento circuito: <input type="number" step="0.1" name="1400Kw"></label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="magnetotermica" value="Presente"> Presente</label>
+                <label><input type="checkbox" name="magnetotermica" value="Assente"> Assente</label>
+            </div>
+            <label>Calibrazione: <input type="text" name="calibrazione"></label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="messaTerra" value="OK"> OK</label>
+                <label><input type="checkbox" name="messaTerra" value="Non OK"> Non OK</label>
+            </div>
+       </div>
+
+        <!-- 7) VERIFICHE FUNZIONALI -->
+        <div class="section">
+            <h2>7) VERIFICHE FUNZIONALI</h2>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="avviamento" value="Regolare"> Regolare</label>
+                <label><input type="checkbox" name="avviamento" value="Problemi"> Problemi</label>
+            </div>
+            <label>Descrizione: <textarea name="descrizioneAvviamento"></textarea></label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="raffreddamento" value="OK"> OK</label>
+                <label><input type="checkbox" name="raffreddamento" value="Non OK"> Non OK</label>
+            </div>
+            <label>Temperatura ambiente: <input type="number" step="0.1" name="tempAmbiente"> °C</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="riscaldamento" value="OK"> OK</label>
+                <label><input type="checkbox" name="riscaldamento" value="Non OK"> Non OK</label>
+            </div>
+            <label>Note: <textarea name="noteRiscaldamento"></textarea></label>
+            <label>Rumorosità (se misurata): <input type="number" step="0.1" name="rumorosita"> dB(A)</label>
+        </div>
+
+        
+        <!-- 9) OSSERVAZIONI E RACCOMANDAZIONI -->
+        <div class="section">
+            <h2>9) OSSERVAZIONI E RACCOMANDAZIONI</h2>
+            "Per un perfetto funzionamento del vostro climatizzatore , vanno fatti le seguenti accortezze :
+           – Pulizia filtri  si consiglia ogni cambio stagione, più spesso nei casi si fuma dentro casa 
+           – Sanificazione della macchina interna una volta l'anno
+           – In caso di cattivo tempo si consiglia di togliere l'alimentazione dal magneto termico generale
+           – Spegnere il condizionatore dal telecomando e disinserire il magneto termico generale"</textarea>
+        </div>
+
+        <!-- 10) DICHIARAZIONE E FIRME -->
+        <div class="section">
+            <h2>10) DICHIARAZIONE E FIRME</h2>
+            <p>Dichiaro che i controlli sopra riportati sono stati eseguiti e che i risultati corrispondono a quanto annotato.</p>
+            <label>Installatore AirTeknic: <input type="text" name="tecnico"></label>
+            <label>Data: <input type="date" name="dataFirma"></label>
+        </div>
+
+        <button type="button" onclick="generaPDF()">Genera PDF</button>
+    </form>
+
+    <script>
+        async function generaPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            let yOffset = 20;
+
+            doc.setFontSize(16);
+            doc.text("AIRTEKNIC — Il comfort che meriti", 105, yOffset, { align: "center" });
+            yOffset += 10;
+
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const h2 = section.querySelector('h2');
+                if (h2) {
+                    doc.setFontSize(14);
+                    doc.text(h2.innerText, 10, yOffset);
+                    yOffset += 7;
+                }
+
+                const labels = section.querySelectorAll('label');
+                labels.forEach(label => {
+                    const input = label.querySelector('input, textarea');
+                    if (!input) return;
+
+                    let text = label.childNodes[0].textContent.trim();
+                    let value = '';
+
+                    if (input.type === 'checkbox') {
+                        if (input.checked) value = '✔';
+                    } else {
+                        value = input.value;
+                    }
+
+                    doc.setFontSize(12);
+                    const lines = doc.splitTextToSize(value ? `${text} ${value}` : text, 180);
+                    doc.text(lines, 10, yOffset);
+                    yOffset += lines.length * 7;
+
+                    if (yOffset > 270) {
+                        doc.addPage();
+                        yOffset = 20;
+                    }
+                });
+
+                yOffset += 3;
+            });
+
+            doc.save("Collaudo_AIRTEKNIC.pdf");
+        }
+    </script>
+</body>
+</html>
